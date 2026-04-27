@@ -346,11 +346,11 @@ Todos son correctos. Lo importante no es el número exacto sino que sea **varios
 **P1.** Ejecutá `wc -l programa.i` y escribí el número de líneas que obtenés.
 
 <!-- Completá la línea siguiente con el número exacto (solo dígitos, sin espacios): -->
-LINEAS_I=
+LINEAS_I=821
 
 ¿Por qué ese número es tan mayor que las 94 líneas de `programa.c`?
 
-> **R:**
+> **R: Tiene mas lineas porque incluye en un solo archivo todas las bibliotecas importadas**
 
 ---
 
@@ -389,11 +389,11 @@ grep "Archivo fuente principal" programa.i   # no debe encontrar nada
 ¿El comando encuentra algo o no devuelve nada?
 
 <!-- Completá con SI (si encontró algo) o NO (si no encontró nada): -->
-COMENTARIOS_EN_I=
+COMENTARIOS_EN_I=NO
 
 ¿Por qué ocurre eso?
 
-> **R:**
+> **R: No se encuentra ese comentario ya que justamente la etapa de procesamiento se encarga de eliminar los comentarios, entre otras cosas**
 
 ---
 
@@ -422,24 +422,24 @@ Nótese que `CUADRADO(5)` se expande a `((5) * (5))`, con los paréntesis extra 
 
 **P3.** Ejecutá `grep -n "CUADRADO" programa.i` y copiá la salida completa.
 
-> **R:**
+> **R: Esto se ve asi porque el procesador remplaza los macros por su contenido original**
 
 ¿El nombre `CUADRADO` aparece tal cual en `programa.i`, o fue reemplazado
 por otra cosa? Respondé SI o NO:
 
 <!-- Completá con SI o NO: -->
-CUADRADO_EN_I=
+CUADRADO_EN_I=SI
 
 ---
 
 **P4.** Ejecutá `grep -n '"1\.0"' programa.i` y copiá la línea encontrada.
 
-> **R:**
+> **R:781:    printf("=== Laboratorio de Compilacion en C (v%s) ===\n\n", "1.0");**
 
 ¿Cuál era el nombre de la macro en `programa.c` que fue reemplazada por `"1.0"`?
 
 <!-- Completá con el nombre exacto de la macro (en mayúsculas, como está en el fuente): -->
-NOMBRE_MACRO_VERSION=
+NOMBRE_MACRO_VERSION=VERSION
 
 ---
 
@@ -475,13 +475,14 @@ gcc -E programa.c | grep "Iniciando"
 gcc -E -DDEBUG programa.c | grep "Iniciando"
 ```
 
-> **R:**
+> **R: Caso 1: No encuentra nada.
+Caso 2: printf("[DEBUG] %s\n", ("Iniciando main"));**
 
 ¿Agregar `-DDEBUG` hace que aparezca código nuevo en el `.i` que antes no estaba?
 Respondé SI o NO:
 
 <!-- Completá con SI o NO: -->
-DEBUG_ACTIVA_CODIGO=
+DEBUG_ACTIVA_CODIGO=NO
 
 ---
 
@@ -504,7 +505,7 @@ grep -n "stdio.h" programa.i | head -5
 
 ¿Qué información comunican esas líneas `# N "archivo"`? ¿De qué archivo proviene el bloque que contiene la declaración de `printf`?
 
-> **R:**
+> **R: Contiene las primeras 5 apariciones del uso de la biblioteca stdio.h, que es donde se encuentra la declaracion de printf**
 
 ---
 
@@ -660,26 +661,33 @@ Aparecen como instrucciones de llamada (por ejemplo `bl _area_circulo`), pero **
 
 **P7.** Ejecutá `grep "area_circulo" programa.s` y copiá la salida.
 
-> **R:**
+> **R:.ascii "area_circulo(%.1f) = %.4f\12\0"
+        call    _area_circulo
+        .def    _area_circulo;  .scl    2;      .type   32;     .endef**
 
 ¿`area_circulo` aparece como una función *definida* en `programa.s`
 (con su propio bloque de instrucciones) o solo como una *llamada* (instrucción sin cuerpo)?
 Respondé DEFINIDA o LLAMADA:
 
 <!-- Completá con DEFINIDA o LLAMADA: -->
-AREA_EN_S=
+AREA_EN_S=LLAMADA
 
 ---
 
 **P8.** Encontrá en `programa.s` la etiqueta `sumar:` o `_sumar:` y copiá
 las primeras 4 líneas de instrucciones que le siguen.
 
-> **R:**
+> **R:_sumar:
+LFB14:
+	.cfi_startproc
+	pushl	%ebp
+	.cfi_def_cfa_offset 8
+    .cfi_offset 5, -8**
 
 Explicá en términos generales qué hacen esas instrucciones
 (usá los comentarios del laboratorio como guía):
 
-> **R:**
+> **R: Primero se especifica el comienzo de un procedimiento/funcion, despues se guarda el valor actual del registro EBP, seguido de eso se mueve el puntero de la pila 8 bytes y por ultima se verifica que el valor del registro EBP fue guardado en la direccion correcta**
 
 ---
 
@@ -692,13 +700,17 @@ grep "llamadas" programa.s
 
 **P9.** Ejecutá `grep "llamadas" programa.s` y copiá la salida.
 
-> **R:**
+> **R:.globl  _llamadas
+_llamadas:
+        movl    _llamadas, %eax
+        movl    %eax, _llamadas
+        movl    _llamadas, %eax**
 
 ¿Aparece la variable `llamadas` en el ensamblador?
 Respondé SI o NO:
 
 <!-- Completá con SI o NO: -->
-LLAMADAS_EN_S=
+LLAMADAS_EN_S=SI
 
 ---
 
