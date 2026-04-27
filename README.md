@@ -860,7 +860,7 @@ pero tipo `T` en `matematica.o`?
 Respondé con una palabra: PREPROCESAMIENTO, COMPILACION, ENSAMBLADO o ENLAZADO:
 
 <!-- Completá con una de las cuatro opciones: -->
-ETAPA_QUE_RESUELVE=COMPILACION
+ETAPA_QUE_RESUELVE=ENLAZADO
 
 ---
 
@@ -974,13 +974,13 @@ nm programa | grep area_circulo
 **P13.** Enlazá con `gcc programa.o matematica.o -o programa`.
 Ejecutá `nm programa | grep "area_circulo"` y copiá la salida.
 
-> **R:**
+> **R:004015a8 T _area_circulo**
 
 ¿Con qué letra aparece ahora `area_circulo` en el ejecutable final?
 Escribí solo la letra:
 
 <!-- Completá con la letra exacta que muestra nm: -->
-TIPO_AREA_ENLAZADO=
+TIPO_AREA_ENLAZADO=T
 
 ---
 
@@ -996,17 +996,19 @@ Quedan algunos `U` incluso en el ejecutable final. ¿Por qué? Son funciones de 
 
 **P14.** Ejecutá `nm programa | grep "^ *U"` y copiá la salida.
 
-> **R:**
+> **R:U ___deregister_frame_info
+         U ___register_frame_info
+         U __Jv_RegisterClasses**
 
 ¿Quedan símbolos de tipo `U` en el ejecutable final?
 Respondé SI o NO:
 
 <!-- Completá con SI o NO: -->
-SIMBOLOS_U_FINAL=
+SIMBOLOS_U_FINAL=SI
 
 ¿Por qué quedan? ¿Quién los resuelve y cuándo?
 
-> **R:**
+> **R:Quedan porque son de la biblioteca dinamica y las va a resolver el cargador dinamico cunado este archivo se ejecute**
 
 ---
 
@@ -1020,12 +1022,27 @@ SIMBOLOS_U_FINAL=
 
 **P15.** Ejecutá `./programa` y copiá la salida completa.
 
-> **R:**
+> **R:=== Laboratorio de Compilacion en C (v1.0) ===
+
+sumar(3, 4)       = 7
+CUADRADO(5)      = 25
+MAX(7, 12)        = 12
+----------------------------------------
+area_circulo(5.0) = 78.5398
+Factoriales:
+  0! = 1
+  1! = 1
+  2! = 2
+  3! = 6
+  4! = 24
+  5! = 120
+----------------------------------------
+Llamadas a sumar(): 1**
 
 ¿Qué valor da `factorial(5)`? Escribí solo el número:
 
 <!-- Completá con el número exacto: -->
-FACTORIAL_5=
+FACTORIAL_5=120
 
 ---
 
@@ -1037,25 +1054,30 @@ FACTORIAL_5=
 como `CUADRADO(x)` y una **función real** como `sumar(a, b)`.
 ¿En qué etapa "desaparece" cada una? ¿Cuál tiene verificación de tipos?
 
-> **R:**
+> **R:Un macro funcion desaparece ya en la etapa de compilacion ya que es solo una forma de darle un nombre unico a un valor, mientras una funcion real desaparece en la etapa de enlazado o incluso al momento de ejecutarlo y estos dictaminan un comportamiento**
 
 ---
 
 **P17.** ¿Qué diferencia hay entre un símbolo de tipo `T` y uno de tipo `D`
 en la salida de `nm`? ¿En qué sección del archivo objeto vive cada uno?
 
-> **R:**
+> **R:La T representa una seccion de texto que esta principalmente asociado a las funciones definidas, mientras que la D representan datos como una variable global con algun valor asignado**
 
 ---
 
 **P18.** (Bonus) Ejecutá `otool -L programa` (macOS) o `ldd programa` (Linux)
 y copiá la salida.
 
-> **R:**
+> **R:ntdll.dll => /c/WINDOWS/SYSTEM32/ntdll.dll (0x7fff0f660000)
+        ntdll.dll => /c/Windows/SysWOW64/ntdll.dll (0x77490000)
+        wow64.dll => /c/WINDOWS/System32/wow64.dll (0x7fff0dbf0000)
+        wow64base.dll => /c/WINDOWS/System32/wow64base.dll (0x7fff0edb0000)
+        wow64win.dll => /c/WINDOWS/System32/wow64win.dll (0x7fff0ec60000)
+        wow64con.dll => /c/WINDOWS/System32/wow64con.dll (0x7fff0eac0000)**
 
 ¿Por qué `libc` no hubo que especificarla explícitamente al enlazar con `gcc`?
 
-> **R:**
+> **R:Como esta es parte de la biblioteca estandar de C no es necesario especificarla explicitamenten, ya que se incluyen por defecto**
 
 ---
 
