@@ -428,7 +428,7 @@ Nótese que `CUADRADO(5)` se expande a `((5) * (5))`, con los paréntesis extra 
 por otra cosa? Respondé SI o NO:
 
 <!-- Completá con SI o NO: -->
-CUADRADO_EN_I=SI
+CUADRADO_EN_I=NO
 
 ---
 
@@ -482,7 +482,7 @@ Caso 2: printf("[DEBUG] %s\n", ("Iniciando main"));**
 Respondé SI o NO:
 
 <!-- Completá con SI o NO: -->
-DEBUG_ACTIVA_CODIGO=NO
+DEBUG_ACTIVA_CODIGO=SI
 
 ---
 
@@ -814,13 +814,27 @@ Salida esperada (simplificada):
 
 **P10.** Ejecutá `nm programa.o` y copiá la salida completa.
 
-> **R:**
+> **R:00000000 b .bss
+00000000 d .data
+00000000 r .eh_frame
+00000000 r .rdata
+00000000 r .rdata$zzz
+00000000 t .text
+         U ___main
+         U _area_circulo
+         U _factorial
+00000132 T _imprimir_separador
+00000000 B _llamadas
+0000001a T _main
+         U _printf
+         U _puts
+00000000 T _sumar**
 
 ¿Con qué letra aparece `area_circulo` en esa tabla?
 Escribí solo la letra (una mayúscula):
 
 <!-- Completá con la letra exacta que muestra nm (U, T, D, etc.): -->
-TIPO_AREA_EN_O=
+TIPO_AREA_EN_O=U
 
 ---
 
@@ -840,13 +854,13 @@ nm matematica.o
 **P11.** ¿Por qué `area_circulo` tiene ese tipo en `programa.o`
 pero tipo `T` en `matematica.o`?
 
-> **R:**
+> **R:Eso se debe a que en programa.o no esta definida, por la U de undefined, mientras que en matematica.o si los esta**
 
 ¿Qué etapa del proceso de compilación resuelve esa diferencia?
 Respondé con una palabra: PREPROCESAMIENTO, COMPILACION, ENSAMBLADO o ENLAZADO:
 
 <!-- Completá con una de las cuatro opciones: -->
-ETAPA_QUE_RESUELVE=
+ETAPA_QUE_RESUELVE=COMPILACION
 
 ---
 
@@ -865,13 +879,13 @@ Un `.o` no es ejecutable por dos razones:
 
 **P12.** Intentá ejecutar `./programa.o` directamente. ¿Qué mensaje aparece?
 
-> **R:**
+> **R:bash: ./programa.o: cannot execute binary file: Exec format error**
 
 ¿Se puede ejecutar un archivo `.o` directamente?
 Respondé SI o NO:
 
 <!-- Completá con SI o NO: -->
-EJECUTABLE_O=
+EJECUTABLE_O=NO
 
 ---
 
